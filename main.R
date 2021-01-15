@@ -12,4 +12,5 @@ ratings_by_app <- Apps %>%
   summarise(mean(Rating))
 
 ratings_by_version <- Apps %>%
-  group_by(App_Version)
+  group_by(App, App_Version) %>%
+  summarise(mean(Rating))

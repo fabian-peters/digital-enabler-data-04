@@ -28,3 +28,9 @@ p <- ggplot(Apps, aes(x = Review_date, y = Rating))
 p <- p + facet_wrap(App ~ .)
 p <- p + geom_line()
 p
+
+# authors with multiple reviews
+authors_with_multiple_review <- Apps %>%
+  group_by(Author_Name) %>%
+  count() %>%
+  filter(n > 1)

@@ -5,7 +5,7 @@
 
 library(dplyr)
 
-load("/Users/fabian/Documents/RData/Apps.rda")
+load("data/Apps.rda")
 
 ratings_by_app <- Apps %>%
   group_by(App) %>%

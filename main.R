@@ -34,3 +34,19 @@ authors_with_multiple_review <- Apps %>%
   group_by(Author_Name) %>%
   count() %>%
   filter(n > 1)
+
+# number of reviews per time of day
+reviews_by_time_of_day <- Apps %>%
+group_by(Timeofday_hour) %>%
+count()
+
+p <- ggplot(Apps, aes(x = Timeofday_hour))
+p <- p + geom_histogram(bins = 24)
+p
+
+p <- p + facet_wrap(App ~ .)
+p
+
+p <- ggplot(reviews_by_time_of_day, aes(x = Timeofday_hour, y = n))
+p <- p + geom_line()
+p

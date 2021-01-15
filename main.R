@@ -26,7 +26,7 @@ ratings_by_version <- Apps %>%
 # rating over time by app
 p <- ggplot(Apps, aes(x = Review_date, y = Rating))
 p <- p + facet_wrap(App ~ .)
-p <- p + geom_line()
+p <- p + geom_smooth()
 p
 
 # authors with multiple reviews

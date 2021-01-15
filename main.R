@@ -7,15 +7,18 @@ library(dplyr)
 library(ggplot2)
 
 load("data/Apps.rda")
+Apps$Rating_factor <- as.factor(Apps$Rating)
+Apps$Timeofday_hour_factor <- as.factor(Apps$Timeofday_hour)
 
 # rating by app
 ratings_by_app <- Apps %>%
   group_by(App) %>%
   summarise(mean(Rating))
 
-p <- ggplot(Apps, aes(x = Rating))
+p <- ggplot(Apps, aes(x = Rating_factor))
 p <- p + facet_wrap(App ~ .)
-p <- p + geom_histogram(bins = 5)
+p <- p + geom_histogram(stat = "count")
+p <- p + xlab("Rating")
 p
 
 # rating by app and version
@@ -49,4 +52,20 @@ p
 
 p <- ggplot(reviews_by_time_of_day, aes(x = Timeofday_hour, y = n))
 p <- p + geom_line()
+p
+
+# sentiment per time of day
+sentiment_by_time_of_day <- Apps %>%
+  group_by(Timeofday_hour) %>%
+  summarise(mean(Sentiment_nrc), min(Sentiment_nrc), max(Sentiment_nrc))
+
+sentiment_by_time_of_day$Timeofday_hour <- as.factor(sentiment_by_time_of_day$Timeofday_hour)
+p <- ggplot(sentiment_by_time_of_day, aes(x = Timeofday_hour, y = `mean(Sentiment_nrc)`, ymin = `min(Sentiment_nrc)`, ymax = `max(Sentiment_nrc)`))
+p <- p + xlab("Time of Day")
+p <- p + geom_pointrange()
+p
+
+p <- ggplot(Apps, aes(x = Timeofday_hour_factor, y = Sentiment_nrc))
+p <- p + geom_boxplot()
+p <- p + xlab("Time of Day")
 p

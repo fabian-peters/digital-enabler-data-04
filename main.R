@@ -13,6 +13,11 @@ ratings_by_app <- Apps %>%
   group_by(App) %>%
   summarise(mean(Rating))
 
+p <- ggplot(Apps, aes(x = Rating))
+p <- p + facet_wrap(App ~ .)
+p <- p + geom_histogram(bins = 5)
+p
+
 # rating by app and version
 ratings_by_version <- Apps %>%
   group_by(App, App_Version) %>%

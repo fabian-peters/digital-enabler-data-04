@@ -32,6 +32,11 @@ p <- p + facet_wrap(App ~ .)
 p <- p + geom_smooth()
 p
 
+# time needed to receive 490 reviews
+time_needed_for_reviews <- Apps %>%
+  group_by(App) %>%
+  summarise(max(Review_minute) - min(Review_minute))
+
 # authors with multiple reviews
 authors_with_multiple_review <- Apps %>%
   group_by(Author_Name) %>%

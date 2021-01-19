@@ -69,3 +69,12 @@ p <- ggplot(Apps, aes(x = Timeofday_hour_factor, y = Sentiment_nrc))
 p <- p + geom_boxplot()
 p <- p + xlab("Time of Day")
 p
+
+
+p <- ggplot(Apps, aes(x = Timeofday_hour, y = Rating))
+p <- p + geom_smooth()
+p <- p + xlab("Time of Day")
+p <- p + facet_wrap(App ~ .)
+p
+
+

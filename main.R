@@ -68,7 +68,7 @@ reviews_by_time_of_day <- Apps %>%
 group_by(Timeofday_hour) %>%
 count()
 
-p <- ggplot(Apps, aes(x = Timeofday_hour))
+p <- ggplot(Apps, aes(x = Timeofday_hour)) +theme_minimal()
 p <- p + geom_histogram(bins = 24,color = 'black',fill = 'white')
 p
 

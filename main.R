@@ -161,6 +161,37 @@ sentiment_by_app <- Apps %>%
   group_by(App) %>%
   summarise(mean(Sentiment_nrc), min(Sentiment_nrc), max(Sentiment_nrc))
 
+p <- ggplot(Apps, aes(x = Review_date, y = Sentiment_nrc))
+p <- p + facet_wrap(App ~ .)
+p <- p + geom_point(alpha = 0.3)
+p <- p + geom_smooth()
+p <- p + theme_minimal()
+p <- p + xlab("Date")
+p <- p + ylab("Sentiment")
+p
+
+p <- ggplot(Apps, aes(x = Review_date, y = Sentiment_nrc))
+p <- p + facet_wrap(App ~ .)
+p <- p + geom_jitter(alpha = 0.3)
+p <- p + geom_smooth()
+p <- p + theme_minimal()
+p <- p + xlab("Date")
+p <- p + ylab("Sentiment")
+p
+
+mean_sentiment_by_date <- Apps %>%
+  group_by(App, Review_date) %>%
+  summarise(Sentiment = mean(Sentiment_nrc))
+
+p <- ggplot(mean_sentiment_by_date, aes(x = Review_date, y = Sentiment))
+p <- p + facet_wrap(App ~ .)
+p <- p + geom_line(alpha = 0.6)
+p <- p + geom_smooth()
+p <- p + theme_minimal()
+p <- p + xlab("Date")
+p <- p + ylab("Sentiment")
+p
+
 #wordcloud filter
 MeinMagenta<- Apps %>%
   filter(App=='MeinMagenta')

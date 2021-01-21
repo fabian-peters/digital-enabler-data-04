@@ -29,9 +29,15 @@ p <- p + xlab("Rating")
 p
 
 #neu mit Farbe
-p <- ggplot(Apps, aes(x = Rating_factor, fill=App))
+p <- ggplot(Apps, aes(x = Rating_factor,fill = cut(val, 100)))
 p <- p + facet_wrap(App ~ .)
 p <- p + geom_histogram(stat = "count", aes(fill=..count..)) + theme_minimal() +scale_fill_gradient("Count", low="green", high="red")
+p <- p + xlab("Rating")
+p
+#neu mit Farbe und Rating
+p <- ggplot(Apps, aes(x = Rating_factor))
+p <- p + facet_wrap(App ~ .)
+p <- p + geom_histogram(stat = "count", aes(fill=Rating)) + theme_minimal() +scale_fill_gradient("Count", low="red", high="green")
 p <- p + xlab("Rating")
 p
 

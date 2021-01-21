@@ -145,11 +145,21 @@ sentiment_by_app <- Apps %>%
   group_by(App) %>%
   summarise(mean(Sentiment_nrc), min(Sentiment_nrc), max(Sentiment_nrc))
 
-#wordcloud
-corpus <- Corpus(VectorSource(Apps$Review))
+#wordcloud filter
+MeinMagenta<- Apps %>%
+  filter(App=='MeinMagenta')
+
+MeinVodafone<- Apps %>%
+  filter(App=='MeinVodafone')
+
+MeinO2<- Apps %>%
+  filter(App=='MeinO2')
+
+#wordcloud 
+corpus <- Corpus(VectorSource(MeinO2$Review))
 corpus <- tm_map(corpus, removePunctuation)
 corpus <- tm_map(corpus,content_transformer(tolower))
-corpus <- tm_map(corpus, removeWords, c ("app", "funktioniert", "mehr", "seit", "immer", "gut", "update"))
+corpus <- tm_map(corpus, removeWords, c ("app", "funktioniert", "mehr", "seit", "immer", "gut", "update", "vodafone"))
 corpus <- tm_map(corpus, removeWords, stopwords ("german"))
 corpus <- tm_map(corpus, removeNumbers)
 corpus <- tm_map(corpus, stripWhitespace)

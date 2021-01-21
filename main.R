@@ -62,6 +62,15 @@ time_needed_for_reviews <- Apps %>%
   group_by(App) %>%
   summarise(max(Review_minute) - min(Review_minute))
 
+# reviews per day
+review_count_per_app_and_day <- Apps %>%
+  group_by(App, Review_date) %>%
+  count()
+
+mean_review_count_per_app_and_day <- review_count_per_app_and_day %>%
+  group_by(App) %>%
+  summarise(mean(n))
+
 # authors with multiple reviews
 authors_with_multiple_review <- Apps %>%
   group_by(Author_Name) %>%

@@ -17,6 +17,11 @@ load("data/Apps.rda")
 Apps$Rating_factor <- as.factor(Apps$Rating)
 Apps$Timeofday_hour_factor <- as.factor(Apps$Timeofday_hour)
 
+# verify data set has the correct size (490 reviews per app)
+review_count_per_app <- Apps %>%
+  group_by(App) %>%
+  count()
+
 # rating by app
 ratings_by_app <- Apps %>%
   group_by(App) %>%
@@ -38,7 +43,7 @@ p
 p <- ggplot(Apps, aes(x = Rating_factor))
 p <- p + facet_wrap(App ~ .)
 p <- p + geom_histogram(stat = "count", aes(fill=Rating)) + theme_minimal() +scale_fill_gradient("Rating", low="red", high="green")
-p <- p + xlab("Rating") 
+p <- p + xlab("Rating")
 p
 
 # rating by app and version
@@ -57,6 +62,15 @@ time_needed_for_reviews <- Apps %>%
   group_by(App) %>%
   summarise(max(Review_minute) - min(Review_minute))
 
+# reviews per day
+review_count_per_app_and_day <- Apps %>%
+  group_by(App, Review_date) %>%
+  count()
+
+mean_review_count_per_app_and_day <- review_count_per_app_and_day %>%
+  group_by(App) %>%
+  summarise(mean(n))
+
 # authors with multiple reviews
 authors_with_multiple_review <- Apps %>%
   group_by(Author_Name) %>%
@@ -68,7 +82,13 @@ reviews_by_time_of_day <- Apps %>%
 group_by(Timeofday_hour) %>%
 count()
 
-p <- ggplot(Apps, aes(x = Timeofday_hour)) +theme_minimal()
+p <- ggplot(Apps, aes(x = Timeofday_hour_factor))
+p <- p + geom_histogram(stat = "count")
+p <- p + theme_minimal()
+p <- p + xlab("Time of Day")
+p
+
+p <- ggplot(Apps, aes(x = Timeofday_hour))
 p <- p + geom_histogram(bins = 24,color = 'black',fill = 'white')
 p
 
@@ -102,6 +122,11 @@ p <- p + xlab("Time of Day")
 p <- p + facet_wrap(App ~ .)
 p
 
+# sentiment per app
+sentiment_by_app <- Apps %>%
+  group_by(App) %>%
+  summarise(mean(Sentiment_nrc), min(Sentiment_nrc), max(Sentiment_nrc))
+
 #wordcloud
 corpus <- Corpus(VectorSource(Apps$Review))
 corpus <- tm_map(corpus, removePunctuation)
@@ -121,4 +146,3 @@ set.seed(1001)
 wordcloud(words = df$word, freq = df$freq, min.freq = 2,
           max.words=500, random.order=FALSE, rot.per=0.35,
           colors=brewer.pal(n=8,name="Spectral"))
-

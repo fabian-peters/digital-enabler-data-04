@@ -122,6 +122,11 @@ p <- p + xlab("Time of Day")
 p <- p + facet_wrap(App ~ .)
 p
 
+# sentiment per app
+sentiment_by_app <- Apps %>%
+  group_by(App) %>%
+  summarise(mean(Sentiment_nrc), min(Sentiment_nrc), max(Sentiment_nrc))
+
 #wordcloud
 corpus <- Corpus(VectorSource(Apps$Review))
 corpus <- tm_map(corpus, removePunctuation)

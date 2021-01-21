@@ -5,6 +5,13 @@
 
 library(dplyr)
 library(ggplot2)
+library(reshape2)
+library(psych)
+library(tidyr)
+library (stringr)
+library(tm)
+library(wordcloud)
+library(RColorBrewer)
 
 load("data/Apps.rda")
 Apps$Rating_factor <- as.factor(Apps$Rating)
@@ -82,4 +89,23 @@ p <- p + xlab("Time of Day")
 p <- p + facet_wrap(App ~ .)
 p
 
+#wordcloud
+corpus <- Corpus(VectorSource(Apps$Review))
+corpus <- tm_map(corpus, removePunctuation)
+corpus <- tm_map(corpus,content_transformer(tolower))
+corpus <- tm_map(corpus, removeWords, c ("app", "funktioniert", "mehr", "seit", "immer", "gut", "update"))
+corpus <- tm_map(corpus, removeWords, stopwords ("german"))
+corpus <- tm_map(corpus, removeNumbers)
+corpus <- tm_map(corpus, stripWhitespace)
+#corpus <- tm_map(corpus,stemDocument)
+#Kreiere Term-Document Matrix
+tdm <- TermDocumentMatrix(corpus)
+m <- as.matrix(tdm)
+v <- sort(rowSums(m),decreasing=TRUE)
+df <- data.frame(word = names(v),freq=v)
+#Kreiere Wordcloud
+set.seed(1001)
+wordcloud(words = df$word, freq = df$freq, min.freq = 2,
+          max.words=500, random.order=FALSE, rot.per=0.35,
+          colors=brewer.pal(n=8,name="Spectral"))
 

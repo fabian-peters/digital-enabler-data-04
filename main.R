@@ -38,7 +38,7 @@ p
 p <- ggplot(Apps, aes(x = Rating_factor))
 p <- p + facet_wrap(App ~ .)
 p <- p + geom_histogram(stat = "count", aes(fill=Rating)) + theme_minimal() +scale_fill_gradient("Rating", low="red", high="green")
-p <- p + xlab("Rating")
+p <- p + xlab("Rating") 
 p
 
 # rating by app and version
@@ -69,7 +69,7 @@ group_by(Timeofday_hour) %>%
 count()
 
 p <- ggplot(Apps, aes(x = Timeofday_hour))
-p <- p + geom_histogram(bins = 24)
+p <- p + geom_histogram(bins = 24,color = 'black',fill = 'white')
 p
 
 p <- p + facet_wrap(App ~ .)

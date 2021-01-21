@@ -39,6 +39,7 @@ p <- p + facet_wrap(App ~ .)
 p <- p + geom_histogram(stat = "count", aes(fill=..count..)) + theme_minimal() +scale_fill_gradient("Count", low="green", high="red")
 p <- p + xlab("Rating")
 p
+
 #neu mit Farbe und Rating
 p <- ggplot(Apps, aes(x = Rating_factor))
 p <- p + facet_wrap(App ~ .)
@@ -70,6 +71,24 @@ review_count_per_app_and_day <- Apps %>%
 mean_review_count_per_app_and_day <- review_count_per_app_and_day %>%
   group_by(App) %>%
   summarise(mean(n))
+
+# number of review over time
+number_reviews_over_time <- Apps %>%
+  group_by(App, Review_date) %>%
+  count()
+
+p <- ggplot(number_reviews_over_time, aes(x = Review_date, y = n))
+p <- p + facet_wrap(App ~ .)
+p <- p + geom_line()
+p <- p + xlab("Date")
+p
+
+p <- ggplot(number_reviews_over_time, aes(x = Review_date, y = n))
+p <- p + facet_wrap(App ~ .)
+p <- p + geom_line()
+p <- p + geom_smooth()
+p <- p + xlab("Date")
+p
 
 # authors with multiple reviews
 authors_with_multiple_review <- Apps %>%
@@ -114,7 +133,6 @@ p <- ggplot(Apps, aes(x = Timeofday_hour_factor, y = Sentiment_nrc))
 p <- p + geom_boxplot()
 p <- p + xlab("Time of Day")
 p
-
 
 p <- ggplot(Apps, aes(x = Timeofday_hour, y = Rating))
 p <- p + geom_smooth()

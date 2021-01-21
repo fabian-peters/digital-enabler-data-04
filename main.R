@@ -17,6 +17,11 @@ load("data/Apps.rda")
 Apps$Rating_factor <- as.factor(Apps$Rating)
 Apps$Timeofday_hour_factor <- as.factor(Apps$Timeofday_hour)
 
+# verify data set has the correct size (490 reviews per app)
+review_count_per_app <- Apps %>%
+  group_by(App) %>%
+  count()
+
 # rating by app
 ratings_by_app <- Apps %>%
   group_by(App) %>%

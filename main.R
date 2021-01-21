@@ -90,6 +90,17 @@ p <- p + geom_smooth()
 p <- p + xlab("Date")
 p
 
+# stacked area for magenta ratings
+magenta_stack_data <- Apps %>%
+  filter(App == "MeinMagenta") %>%
+  group_by(Review_date, Rating_factor) %>%
+  count()
+
+p <- ggplot(magenta_stack_data, aes(x = Review_date, y = n, fill = Rating_factor))
+p <- p + geom_area(position = "stack")
+p <- p + xlab("Date")
+p
+
 # authors with multiple reviews
 authors_with_multiple_review <- Apps %>%
   group_by(Author_Name) %>%

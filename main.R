@@ -77,6 +77,11 @@ number_reviews_over_time <- Apps %>%
   group_by(App, Review_date) %>%
   count()
 
+# number of days with at least one review
+number_days_with_review_per_app <- number_reviews_over_time %>%
+  group_by(App) %>%
+  count()
+
 p <- ggplot(number_reviews_over_time, aes(x = Review_date, y = n))
 p <- p + facet_wrap(App ~ .)
 p <- p + geom_line()

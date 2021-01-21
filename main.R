@@ -22,9 +22,16 @@ ratings_by_app <- Apps %>%
   group_by(App) %>%
   summarise(mean(Rating))
 
-p <- ggplot(Apps, aes(x = Rating_factor))
+p <- ggplot(Apps, aes(x = Rating_factor, fill=App))
 p <- p + facet_wrap(App ~ .)
-p <- p + geom_histogram(stat = "count")
+p <- p + geom_histogram(stat = "count", fill = 'seagreen', color = 'red') + theme_minimal()
+p <- p + xlab("Rating")
+p
+
+#neu mit Farbe
+p <- ggplot(Apps, aes(x = Rating_factor, fill=App))
+p <- p + facet_wrap(App ~ .)
+p <- p + geom_histogram(stat = "count", aes(fill=..count..)) + theme_minimal() +scale_fill_gradient("Count", low="green", high="red")
 p <- p + xlab("Rating")
 p
 
